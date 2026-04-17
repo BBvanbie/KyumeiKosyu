@@ -1,0 +1,126 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum ReservationStatus {
+  pending
+  confirmed
+  cancelled
+}
+
+enum NotificationType {
+  reservation_cancelled
+}
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  username     String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model BookingSetting {
+  id                     String   @id
+  monthlyLimit           Int
+  weeklyLimit            Int
+  dailyLimit             Int
+  maxConsecutiveOpenDays Int
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+}
+
+model SiteContent {
+  id                  String   @id
+  heroTitle           String
+  heroDescription     String
+  guideTitle          String
+  guideBody           String
+  fireStationPhone    String   @default("03-0000-0000")
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+}
+
+model ReservationType {
+  id             String        @id @default(cuid())
+  name           String
+  description    String?
+  durationMinutes Int
+  textbookFee    Int
+  isActive       Boolean       @default(true)
+  sortOrder      Int           @unique
+  createdAt      DateTime      @default(now())
+  reservationItems ReservationItem[]
+}
+
+model BlockedDate {
+  id        String   @id @default(cuid())
+  date      DateTime @unique @db.Date
+  reason    String?
+  createdAt DateTime @default(now())
+}
+
+model Reservation {
+  id                String            @id @default(cuid())
+  reservationNumber String            @unique
+  confirmationCodeHash String
+  preferredDate     DateTime          @db.Date
+  preferredStartTime String?
+  status            ReservationStatus @default(pending)
+  confirmedAt       DateTime?
+  fullName          String
+  address           String?
+  phone             String
+  email             String?
+  organizationName  String?
+  venueAddress      String?
+  targetAudience    String?
+  interpreterAvailable Boolean?
+  japaneseTextbookCount Int?
+  englishTextbookCount Int?
+  wantsAdditionalTextbooks Boolean @default(false)
+  additionalTextbookCounts Json?
+  notes             String?
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+
+  items ReservationItem[]
+  cancellationLogs CancellationLog[]
+}
+
+model ReservationItem {
+  id                String   @id @default(cuid())
+  reservationId     String
+  reservationTypeId String
+  participantCount  Int
+  sortOrder         Int
+
+  reservation     Reservation     @relation(fields: [reservationId], references: [id], onDelete: Cascade)
+  reservationType ReservationType @relation(fields: [reservationTypeId], references: [id], onDelete: Restrict)
+
+  @@index([reservationId, sortOrder])
+}
+
+model CancellationLog {
+  id           String   @id @default(cuid())
+  reservationId String
+  cancelledBy  String
+  note         String?
+  createdAt    DateTime @default(now())
+
+  reservation Reservation @relation(fields: [reservationId], references: [id], onDelete: Cascade)
+}
+
+model AdminNotification {
+  id        String           @id @default(cuid())
+  type      NotificationType
+  title     String
+  body      String
+  isRead    Boolean          @default(false)
+  createdAt DateTime         @default(now())
+}
