@@ -9,17 +9,20 @@ type CalendarPickerProps = {
   selectedDate: string
   onSelect: (date: string) => void
   disabledBlockedDates?: boolean
+  disablePastDates?: boolean
   label?: string
 }
 
 export function CalendarPicker({
   blockedDates,
   disabledBlockedDates = true,
+  disablePastDates = true,
   label = '予約日カレンダー',
   onSelect,
   selectedDate,
 }: CalendarPickerProps) {
   const blocked = new Set(blockedDates.map((date) => dayjs(date).format('YYYY-MM-DD')))
+  const today = dayjs().startOf('day')
   const [visibleMonth, setVisibleMonth] = useState(
     selectedDate ? dayjs(selectedDate).startOf('month') : dayjs().startOf('month')
   )
@@ -96,6 +99,8 @@ export function CalendarPicker({
 
           const key = date.format('YYYY-MM-DD')
           const isBlocked = blocked.has(key)
+          const isPast = disablePastDates && date.isBefore(today, 'day')
+          const isDisabled = isBlocked || isPast
           const isSelected = selectedDate === key
           const dayOfWeek = date.day()
           const isSaturday = dayOfWeek === 6
@@ -104,7 +109,7 @@ export function CalendarPicker({
           const className = [
             'calendar-day',
             isSelected ? 'is-selected' : '',
-            isBlocked ? 'is-blocked' : '',
+            isDisabled ? 'is-blocked' : '',
             isSaturday ? 'is-saturday' : '',
             isSunday ? 'is-sunday' : '',
             isHoliday ? 'is-holiday' : '',
@@ -116,7 +121,7 @@ export function CalendarPicker({
             <button
               key={key}
               className={className}
-              disabled={disabledBlockedDates && isBlocked}
+              disabled={(disabledBlockedDates && isBlocked) || isPast}
               onClick={() => {
                 setVisibleMonth(date.startOf('month'))
                 onSelect(key)
@@ -125,7 +130,9 @@ export function CalendarPicker({
             >
               <span className="calendar-day__month">{date.format('M月')}</span>
               <strong>{date.format('D')}</strong>
-              <span className="calendar-day__state">{isBlocked ? '予約不可' : '選択可能'}</span>
+              <span className="calendar-day__state">
+                {isPast ? '受付終了' : isBlocked ? '予約不可' : '選択可能'}
+              </span>
             </button>
           )
         })}

@@ -20,8 +20,26 @@ export type SiteContentModel = runtime.Types.Result.DefaultSelection<Prisma.$Sit
 
 export type AggregateSiteContent = {
   _count: SiteContentCountAggregateOutputType | null
+  _avg: SiteContentAvgAggregateOutputType | null
+  _sum: SiteContentSumAggregateOutputType | null
   _min: SiteContentMinAggregateOutputType | null
   _max: SiteContentMaxAggregateOutputType | null
+}
+
+export type SiteContentAvgAggregateOutputType = {
+  additionalTextbookFeeBasicInitial: number | null
+  additionalTextbookFeeBasicRenewal: number | null
+  additionalTextbookFeeBasicEnglish: number | null
+  additionalTextbookFeeAdvancedInitial: number | null
+  additionalTextbookFeeAdvancedRenewal: number | null
+}
+
+export type SiteContentSumAggregateOutputType = {
+  additionalTextbookFeeBasicInitial: number | null
+  additionalTextbookFeeBasicRenewal: number | null
+  additionalTextbookFeeBasicEnglish: number | null
+  additionalTextbookFeeAdvancedInitial: number | null
+  additionalTextbookFeeAdvancedRenewal: number | null
 }
 
 export type SiteContentMinAggregateOutputType = {
@@ -31,6 +49,12 @@ export type SiteContentMinAggregateOutputType = {
   guideTitle: string | null
   guideBody: string | null
   fireStationPhone: string | null
+  feeHelpText: string | null
+  additionalTextbookFeeBasicInitial: number | null
+  additionalTextbookFeeBasicRenewal: number | null
+  additionalTextbookFeeBasicEnglish: number | null
+  additionalTextbookFeeAdvancedInitial: number | null
+  additionalTextbookFeeAdvancedRenewal: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -42,6 +66,12 @@ export type SiteContentMaxAggregateOutputType = {
   guideTitle: string | null
   guideBody: string | null
   fireStationPhone: string | null
+  feeHelpText: string | null
+  additionalTextbookFeeBasicInitial: number | null
+  additionalTextbookFeeBasicRenewal: number | null
+  additionalTextbookFeeBasicEnglish: number | null
+  additionalTextbookFeeAdvancedInitial: number | null
+  additionalTextbookFeeAdvancedRenewal: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -53,11 +83,33 @@ export type SiteContentCountAggregateOutputType = {
   guideTitle: number
   guideBody: number
   fireStationPhone: number
+  feeHelpText: number
+  additionalTextbookFeeBasicInitial: number
+  additionalTextbookFeeBasicRenewal: number
+  additionalTextbookFeeBasicEnglish: number
+  additionalTextbookFeeAdvancedInitial: number
+  additionalTextbookFeeAdvancedRenewal: number
   createdAt: number
   updatedAt: number
   _all: number
 }
 
+
+export type SiteContentAvgAggregateInputType = {
+  additionalTextbookFeeBasicInitial?: true
+  additionalTextbookFeeBasicRenewal?: true
+  additionalTextbookFeeBasicEnglish?: true
+  additionalTextbookFeeAdvancedInitial?: true
+  additionalTextbookFeeAdvancedRenewal?: true
+}
+
+export type SiteContentSumAggregateInputType = {
+  additionalTextbookFeeBasicInitial?: true
+  additionalTextbookFeeBasicRenewal?: true
+  additionalTextbookFeeBasicEnglish?: true
+  additionalTextbookFeeAdvancedInitial?: true
+  additionalTextbookFeeAdvancedRenewal?: true
+}
 
 export type SiteContentMinAggregateInputType = {
   id?: true
@@ -66,6 +118,12 @@ export type SiteContentMinAggregateInputType = {
   guideTitle?: true
   guideBody?: true
   fireStationPhone?: true
+  feeHelpText?: true
+  additionalTextbookFeeBasicInitial?: true
+  additionalTextbookFeeBasicRenewal?: true
+  additionalTextbookFeeBasicEnglish?: true
+  additionalTextbookFeeAdvancedInitial?: true
+  additionalTextbookFeeAdvancedRenewal?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -77,6 +135,12 @@ export type SiteContentMaxAggregateInputType = {
   guideTitle?: true
   guideBody?: true
   fireStationPhone?: true
+  feeHelpText?: true
+  additionalTextbookFeeBasicInitial?: true
+  additionalTextbookFeeBasicRenewal?: true
+  additionalTextbookFeeBasicEnglish?: true
+  additionalTextbookFeeAdvancedInitial?: true
+  additionalTextbookFeeAdvancedRenewal?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -88,6 +152,12 @@ export type SiteContentCountAggregateInputType = {
   guideTitle?: true
   guideBody?: true
   fireStationPhone?: true
+  feeHelpText?: true
+  additionalTextbookFeeBasicInitial?: true
+  additionalTextbookFeeBasicRenewal?: true
+  additionalTextbookFeeBasicEnglish?: true
+  additionalTextbookFeeAdvancedInitial?: true
+  additionalTextbookFeeAdvancedRenewal?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -131,6 +201,18 @@ export type SiteContentAggregateArgs<ExtArgs extends runtime.Types.Extensions.In
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: SiteContentAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: SiteContentSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: SiteContentMinAggregateInputType
@@ -161,6 +243,8 @@ export type SiteContentGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inte
   take?: number
   skip?: number
   _count?: SiteContentCountAggregateInputType | true
+  _avg?: SiteContentAvgAggregateInputType
+  _sum?: SiteContentSumAggregateInputType
   _min?: SiteContentMinAggregateInputType
   _max?: SiteContentMaxAggregateInputType
 }
@@ -172,9 +256,17 @@ export type SiteContentGroupByOutputType = {
   guideTitle: string
   guideBody: string
   fireStationPhone: string
+  feeHelpText: string
+  additionalTextbookFeeBasicInitial: number
+  additionalTextbookFeeBasicRenewal: number
+  additionalTextbookFeeBasicEnglish: number
+  additionalTextbookFeeAdvancedInitial: number
+  additionalTextbookFeeAdvancedRenewal: number
   createdAt: Date
   updatedAt: Date
   _count: SiteContentCountAggregateOutputType | null
+  _avg: SiteContentAvgAggregateOutputType | null
+  _sum: SiteContentSumAggregateOutputType | null
   _min: SiteContentMinAggregateOutputType | null
   _max: SiteContentMaxAggregateOutputType | null
 }
@@ -204,6 +296,12 @@ export type SiteContentWhereInput = {
   guideTitle?: Prisma.StringFilter<"SiteContent"> | string
   guideBody?: Prisma.StringFilter<"SiteContent"> | string
   fireStationPhone?: Prisma.StringFilter<"SiteContent"> | string
+  feeHelpText?: Prisma.StringFilter<"SiteContent"> | string
+  additionalTextbookFeeBasicInitial?: Prisma.IntFilter<"SiteContent"> | number
+  additionalTextbookFeeBasicRenewal?: Prisma.IntFilter<"SiteContent"> | number
+  additionalTextbookFeeBasicEnglish?: Prisma.IntFilter<"SiteContent"> | number
+  additionalTextbookFeeAdvancedInitial?: Prisma.IntFilter<"SiteContent"> | number
+  additionalTextbookFeeAdvancedRenewal?: Prisma.IntFilter<"SiteContent"> | number
   createdAt?: Prisma.DateTimeFilter<"SiteContent"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"SiteContent"> | Date | string
 }
@@ -215,6 +313,12 @@ export type SiteContentOrderByWithRelationInput = {
   guideTitle?: Prisma.SortOrder
   guideBody?: Prisma.SortOrder
   fireStationPhone?: Prisma.SortOrder
+  feeHelpText?: Prisma.SortOrder
+  additionalTextbookFeeBasicInitial?: Prisma.SortOrder
+  additionalTextbookFeeBasicRenewal?: Prisma.SortOrder
+  additionalTextbookFeeBasicEnglish?: Prisma.SortOrder
+  additionalTextbookFeeAdvancedInitial?: Prisma.SortOrder
+  additionalTextbookFeeAdvancedRenewal?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -229,6 +333,12 @@ export type SiteContentWhereUniqueInput = Prisma.AtLeast<{
   guideTitle?: Prisma.StringFilter<"SiteContent"> | string
   guideBody?: Prisma.StringFilter<"SiteContent"> | string
   fireStationPhone?: Prisma.StringFilter<"SiteContent"> | string
+  feeHelpText?: Prisma.StringFilter<"SiteContent"> | string
+  additionalTextbookFeeBasicInitial?: Prisma.IntFilter<"SiteContent"> | number
+  additionalTextbookFeeBasicRenewal?: Prisma.IntFilter<"SiteContent"> | number
+  additionalTextbookFeeBasicEnglish?: Prisma.IntFilter<"SiteContent"> | number
+  additionalTextbookFeeAdvancedInitial?: Prisma.IntFilter<"SiteContent"> | number
+  additionalTextbookFeeAdvancedRenewal?: Prisma.IntFilter<"SiteContent"> | number
   createdAt?: Prisma.DateTimeFilter<"SiteContent"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"SiteContent"> | Date | string
 }, "id">
@@ -240,11 +350,19 @@ export type SiteContentOrderByWithAggregationInput = {
   guideTitle?: Prisma.SortOrder
   guideBody?: Prisma.SortOrder
   fireStationPhone?: Prisma.SortOrder
+  feeHelpText?: Prisma.SortOrder
+  additionalTextbookFeeBasicInitial?: Prisma.SortOrder
+  additionalTextbookFeeBasicRenewal?: Prisma.SortOrder
+  additionalTextbookFeeBasicEnglish?: Prisma.SortOrder
+  additionalTextbookFeeAdvancedInitial?: Prisma.SortOrder
+  additionalTextbookFeeAdvancedRenewal?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.SiteContentCountOrderByAggregateInput
+  _avg?: Prisma.SiteContentAvgOrderByAggregateInput
   _max?: Prisma.SiteContentMaxOrderByAggregateInput
   _min?: Prisma.SiteContentMinOrderByAggregateInput
+  _sum?: Prisma.SiteContentSumOrderByAggregateInput
 }
 
 export type SiteContentScalarWhereWithAggregatesInput = {
@@ -257,6 +375,12 @@ export type SiteContentScalarWhereWithAggregatesInput = {
   guideTitle?: Prisma.StringWithAggregatesFilter<"SiteContent"> | string
   guideBody?: Prisma.StringWithAggregatesFilter<"SiteContent"> | string
   fireStationPhone?: Prisma.StringWithAggregatesFilter<"SiteContent"> | string
+  feeHelpText?: Prisma.StringWithAggregatesFilter<"SiteContent"> | string
+  additionalTextbookFeeBasicInitial?: Prisma.IntWithAggregatesFilter<"SiteContent"> | number
+  additionalTextbookFeeBasicRenewal?: Prisma.IntWithAggregatesFilter<"SiteContent"> | number
+  additionalTextbookFeeBasicEnglish?: Prisma.IntWithAggregatesFilter<"SiteContent"> | number
+  additionalTextbookFeeAdvancedInitial?: Prisma.IntWithAggregatesFilter<"SiteContent"> | number
+  additionalTextbookFeeAdvancedRenewal?: Prisma.IntWithAggregatesFilter<"SiteContent"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"SiteContent"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"SiteContent"> | Date | string
 }
@@ -268,6 +392,12 @@ export type SiteContentCreateInput = {
   guideTitle: string
   guideBody: string
   fireStationPhone?: string
+  feeHelpText?: string
+  additionalTextbookFeeBasicInitial?: number
+  additionalTextbookFeeBasicRenewal?: number
+  additionalTextbookFeeBasicEnglish?: number
+  additionalTextbookFeeAdvancedInitial?: number
+  additionalTextbookFeeAdvancedRenewal?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -279,6 +409,12 @@ export type SiteContentUncheckedCreateInput = {
   guideTitle: string
   guideBody: string
   fireStationPhone?: string
+  feeHelpText?: string
+  additionalTextbookFeeBasicInitial?: number
+  additionalTextbookFeeBasicRenewal?: number
+  additionalTextbookFeeBasicEnglish?: number
+  additionalTextbookFeeAdvancedInitial?: number
+  additionalTextbookFeeAdvancedRenewal?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -290,6 +426,12 @@ export type SiteContentUpdateInput = {
   guideTitle?: Prisma.StringFieldUpdateOperationsInput | string
   guideBody?: Prisma.StringFieldUpdateOperationsInput | string
   fireStationPhone?: Prisma.StringFieldUpdateOperationsInput | string
+  feeHelpText?: Prisma.StringFieldUpdateOperationsInput | string
+  additionalTextbookFeeBasicInitial?: Prisma.IntFieldUpdateOperationsInput | number
+  additionalTextbookFeeBasicRenewal?: Prisma.IntFieldUpdateOperationsInput | number
+  additionalTextbookFeeBasicEnglish?: Prisma.IntFieldUpdateOperationsInput | number
+  additionalTextbookFeeAdvancedInitial?: Prisma.IntFieldUpdateOperationsInput | number
+  additionalTextbookFeeAdvancedRenewal?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -301,6 +443,12 @@ export type SiteContentUncheckedUpdateInput = {
   guideTitle?: Prisma.StringFieldUpdateOperationsInput | string
   guideBody?: Prisma.StringFieldUpdateOperationsInput | string
   fireStationPhone?: Prisma.StringFieldUpdateOperationsInput | string
+  feeHelpText?: Prisma.StringFieldUpdateOperationsInput | string
+  additionalTextbookFeeBasicInitial?: Prisma.IntFieldUpdateOperationsInput | number
+  additionalTextbookFeeBasicRenewal?: Prisma.IntFieldUpdateOperationsInput | number
+  additionalTextbookFeeBasicEnglish?: Prisma.IntFieldUpdateOperationsInput | number
+  additionalTextbookFeeAdvancedInitial?: Prisma.IntFieldUpdateOperationsInput | number
+  additionalTextbookFeeAdvancedRenewal?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -312,6 +460,12 @@ export type SiteContentCreateManyInput = {
   guideTitle: string
   guideBody: string
   fireStationPhone?: string
+  feeHelpText?: string
+  additionalTextbookFeeBasicInitial?: number
+  additionalTextbookFeeBasicRenewal?: number
+  additionalTextbookFeeBasicEnglish?: number
+  additionalTextbookFeeAdvancedInitial?: number
+  additionalTextbookFeeAdvancedRenewal?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -323,6 +477,12 @@ export type SiteContentUpdateManyMutationInput = {
   guideTitle?: Prisma.StringFieldUpdateOperationsInput | string
   guideBody?: Prisma.StringFieldUpdateOperationsInput | string
   fireStationPhone?: Prisma.StringFieldUpdateOperationsInput | string
+  feeHelpText?: Prisma.StringFieldUpdateOperationsInput | string
+  additionalTextbookFeeBasicInitial?: Prisma.IntFieldUpdateOperationsInput | number
+  additionalTextbookFeeBasicRenewal?: Prisma.IntFieldUpdateOperationsInput | number
+  additionalTextbookFeeBasicEnglish?: Prisma.IntFieldUpdateOperationsInput | number
+  additionalTextbookFeeAdvancedInitial?: Prisma.IntFieldUpdateOperationsInput | number
+  additionalTextbookFeeAdvancedRenewal?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -334,6 +494,12 @@ export type SiteContentUncheckedUpdateManyInput = {
   guideTitle?: Prisma.StringFieldUpdateOperationsInput | string
   guideBody?: Prisma.StringFieldUpdateOperationsInput | string
   fireStationPhone?: Prisma.StringFieldUpdateOperationsInput | string
+  feeHelpText?: Prisma.StringFieldUpdateOperationsInput | string
+  additionalTextbookFeeBasicInitial?: Prisma.IntFieldUpdateOperationsInput | number
+  additionalTextbookFeeBasicRenewal?: Prisma.IntFieldUpdateOperationsInput | number
+  additionalTextbookFeeBasicEnglish?: Prisma.IntFieldUpdateOperationsInput | number
+  additionalTextbookFeeAdvancedInitial?: Prisma.IntFieldUpdateOperationsInput | number
+  additionalTextbookFeeAdvancedRenewal?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -345,8 +511,22 @@ export type SiteContentCountOrderByAggregateInput = {
   guideTitle?: Prisma.SortOrder
   guideBody?: Prisma.SortOrder
   fireStationPhone?: Prisma.SortOrder
+  feeHelpText?: Prisma.SortOrder
+  additionalTextbookFeeBasicInitial?: Prisma.SortOrder
+  additionalTextbookFeeBasicRenewal?: Prisma.SortOrder
+  additionalTextbookFeeBasicEnglish?: Prisma.SortOrder
+  additionalTextbookFeeAdvancedInitial?: Prisma.SortOrder
+  additionalTextbookFeeAdvancedRenewal?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type SiteContentAvgOrderByAggregateInput = {
+  additionalTextbookFeeBasicInitial?: Prisma.SortOrder
+  additionalTextbookFeeBasicRenewal?: Prisma.SortOrder
+  additionalTextbookFeeBasicEnglish?: Prisma.SortOrder
+  additionalTextbookFeeAdvancedInitial?: Prisma.SortOrder
+  additionalTextbookFeeAdvancedRenewal?: Prisma.SortOrder
 }
 
 export type SiteContentMaxOrderByAggregateInput = {
@@ -356,6 +536,12 @@ export type SiteContentMaxOrderByAggregateInput = {
   guideTitle?: Prisma.SortOrder
   guideBody?: Prisma.SortOrder
   fireStationPhone?: Prisma.SortOrder
+  feeHelpText?: Prisma.SortOrder
+  additionalTextbookFeeBasicInitial?: Prisma.SortOrder
+  additionalTextbookFeeBasicRenewal?: Prisma.SortOrder
+  additionalTextbookFeeBasicEnglish?: Prisma.SortOrder
+  additionalTextbookFeeAdvancedInitial?: Prisma.SortOrder
+  additionalTextbookFeeAdvancedRenewal?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -367,8 +553,22 @@ export type SiteContentMinOrderByAggregateInput = {
   guideTitle?: Prisma.SortOrder
   guideBody?: Prisma.SortOrder
   fireStationPhone?: Prisma.SortOrder
+  feeHelpText?: Prisma.SortOrder
+  additionalTextbookFeeBasicInitial?: Prisma.SortOrder
+  additionalTextbookFeeBasicRenewal?: Prisma.SortOrder
+  additionalTextbookFeeBasicEnglish?: Prisma.SortOrder
+  additionalTextbookFeeAdvancedInitial?: Prisma.SortOrder
+  additionalTextbookFeeAdvancedRenewal?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type SiteContentSumOrderByAggregateInput = {
+  additionalTextbookFeeBasicInitial?: Prisma.SortOrder
+  additionalTextbookFeeBasicRenewal?: Prisma.SortOrder
+  additionalTextbookFeeBasicEnglish?: Prisma.SortOrder
+  additionalTextbookFeeAdvancedInitial?: Prisma.SortOrder
+  additionalTextbookFeeAdvancedRenewal?: Prisma.SortOrder
 }
 
 
@@ -380,6 +580,12 @@ export type SiteContentSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   guideTitle?: boolean
   guideBody?: boolean
   fireStationPhone?: boolean
+  feeHelpText?: boolean
+  additionalTextbookFeeBasicInitial?: boolean
+  additionalTextbookFeeBasicRenewal?: boolean
+  additionalTextbookFeeBasicEnglish?: boolean
+  additionalTextbookFeeAdvancedInitial?: boolean
+  additionalTextbookFeeAdvancedRenewal?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["siteContent"]>
@@ -391,6 +597,12 @@ export type SiteContentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   guideTitle?: boolean
   guideBody?: boolean
   fireStationPhone?: boolean
+  feeHelpText?: boolean
+  additionalTextbookFeeBasicInitial?: boolean
+  additionalTextbookFeeBasicRenewal?: boolean
+  additionalTextbookFeeBasicEnglish?: boolean
+  additionalTextbookFeeAdvancedInitial?: boolean
+  additionalTextbookFeeAdvancedRenewal?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["siteContent"]>
@@ -402,6 +614,12 @@ export type SiteContentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   guideTitle?: boolean
   guideBody?: boolean
   fireStationPhone?: boolean
+  feeHelpText?: boolean
+  additionalTextbookFeeBasicInitial?: boolean
+  additionalTextbookFeeBasicRenewal?: boolean
+  additionalTextbookFeeBasicEnglish?: boolean
+  additionalTextbookFeeAdvancedInitial?: boolean
+  additionalTextbookFeeAdvancedRenewal?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["siteContent"]>
@@ -413,11 +631,17 @@ export type SiteContentSelectScalar = {
   guideTitle?: boolean
   guideBody?: boolean
   fireStationPhone?: boolean
+  feeHelpText?: boolean
+  additionalTextbookFeeBasicInitial?: boolean
+  additionalTextbookFeeBasicRenewal?: boolean
+  additionalTextbookFeeBasicEnglish?: boolean
+  additionalTextbookFeeAdvancedInitial?: boolean
+  additionalTextbookFeeAdvancedRenewal?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type SiteContentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "heroTitle" | "heroDescription" | "guideTitle" | "guideBody" | "fireStationPhone" | "createdAt" | "updatedAt", ExtArgs["result"]["siteContent"]>
+export type SiteContentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "heroTitle" | "heroDescription" | "guideTitle" | "guideBody" | "fireStationPhone" | "feeHelpText" | "additionalTextbookFeeBasicInitial" | "additionalTextbookFeeBasicRenewal" | "additionalTextbookFeeBasicEnglish" | "additionalTextbookFeeAdvancedInitial" | "additionalTextbookFeeAdvancedRenewal" | "createdAt" | "updatedAt", ExtArgs["result"]["siteContent"]>
 
 export type $SiteContentPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "SiteContent"
@@ -429,6 +653,12 @@ export type $SiteContentPayload<ExtArgs extends runtime.Types.Extensions.Interna
     guideTitle: string
     guideBody: string
     fireStationPhone: string
+    feeHelpText: string
+    additionalTextbookFeeBasicInitial: number
+    additionalTextbookFeeBasicRenewal: number
+    additionalTextbookFeeBasicEnglish: number
+    additionalTextbookFeeAdvancedInitial: number
+    additionalTextbookFeeAdvancedRenewal: number
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["siteContent"]>
@@ -860,6 +1090,12 @@ export interface SiteContentFieldRefs {
   readonly guideTitle: Prisma.FieldRef<"SiteContent", 'String'>
   readonly guideBody: Prisma.FieldRef<"SiteContent", 'String'>
   readonly fireStationPhone: Prisma.FieldRef<"SiteContent", 'String'>
+  readonly feeHelpText: Prisma.FieldRef<"SiteContent", 'String'>
+  readonly additionalTextbookFeeBasicInitial: Prisma.FieldRef<"SiteContent", 'Int'>
+  readonly additionalTextbookFeeBasicRenewal: Prisma.FieldRef<"SiteContent", 'Int'>
+  readonly additionalTextbookFeeBasicEnglish: Prisma.FieldRef<"SiteContent", 'Int'>
+  readonly additionalTextbookFeeAdvancedInitial: Prisma.FieldRef<"SiteContent", 'Int'>
+  readonly additionalTextbookFeeAdvancedRenewal: Prisma.FieldRef<"SiteContent", 'Int'>
   readonly createdAt: Prisma.FieldRef<"SiteContent", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"SiteContent", 'DateTime'>
 }

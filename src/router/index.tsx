@@ -3,6 +3,7 @@ import App from '../App'
 import { AdminLayout } from '../components/admin/AdminLayout'
 import { RequireAdmin } from '../components/admin/RequireAdmin'
 import { HomePage } from '../pages/HomePage'
+import { ReservationCompletePage } from '../pages/ReservationCompletePage'
 import { ReservationConfirmPage } from '../pages/ReservationConfirmPage'
 import { ReservationFormPage } from '../pages/ReservationFormPage'
 import { ReservationLookupPage } from '../pages/ReservationLookupPage'
@@ -34,6 +35,10 @@ export const router = createBrowserRouter([
       {
         path: 'reserve/confirm',
         element: <ReservationConfirmPage />,
+      },
+      {
+        path: 'reserve/complete',
+        element: <ReservationCompletePage />,
       },
       {
         path: 'reservation/lookup',

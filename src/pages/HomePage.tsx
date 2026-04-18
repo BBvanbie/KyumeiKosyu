@@ -10,6 +10,13 @@ const fallbackContent = {
   guideTitle: 'ご利用案内',
   guideBody:
     '予約送信後、消防署からのお電話で受付確定となります。英語版講習や予約不可日がある場合は、画面内の案内をご確認ください。',
+  fireStationPhone: '03-0000-0000',
+  feeHelpText: '講習料は振込対応のみです。当日振込用紙をお渡しします。',
+  additionalTextbookFeeBasicInitial: 0,
+  additionalTextbookFeeBasicRenewal: 0,
+  additionalTextbookFeeBasicEnglish: 0,
+  additionalTextbookFeeAdvancedInitial: 0,
+  additionalTextbookFeeAdvancedRenewal: 0,
 }
 
 export function HomePage() {
@@ -32,7 +39,10 @@ export function HomePage() {
             <Link className="button button-primary cta-animated" to="/reserve">
               予約をはじめる
             </Link>
-            <Link className="button button-secondary" to="/admin/login">
+            <Link className="button button-secondary cta-animated" to="/reservation/lookup">
+              予約を確認する
+            </Link>
+            <Link className="button button-secondary cta-animated" to="/admin/login">
               管理者ログイン
             </Link>
           </div>

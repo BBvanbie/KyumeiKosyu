@@ -28,7 +28,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       const result = await api.getAdminMe()
       setIsAuthenticated(result.authenticated)
-      setUsername(result.username)
+      setUsername(result.authenticated ? result.username : null)
     } catch {
       setIsAuthenticated(false)
       setUsername(null)
@@ -42,7 +42,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       .getAdminMe()
       .then((result) => {
         setIsAuthenticated(result.authenticated)
-        setUsername(result.username)
+        setUsername(result.authenticated ? result.username : null)
       })
       .catch(() => {
         setIsAuthenticated(false)

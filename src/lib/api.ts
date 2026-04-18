@@ -14,6 +14,10 @@ import type {
 
 const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL ?? '').replace(/\/$/, '')
 
+export type AdminMeResponse =
+  | { authenticated: false; username: null }
+  | { authenticated: true; username: string }
+
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const headers = new Headers(init?.headers)
 
@@ -44,7 +48,7 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 }
 
 export const api = {
-  getAdminMe: () => request<{ authenticated: boolean; username: string }>('/api/admin/me'),
+  getAdminMe: () => request<AdminMeResponse>('/api/admin/me'),
   adminLogin: (payload: { username: string; password: string }) =>
     request<{ username: string }>('/api/admin/login', {
       method: 'POST',

@@ -152,7 +152,7 @@ export function ReservationFormPage() {
               <label className="form-grid__wide">
                 <span>住所</span>
                 <input
-                  placeholder="例: 東京都千代田区〇〇1-2-3"
+                  placeholder="例: 千代田区〇〇1-2-3"
                   value={draft.address}
                   onChange={(event) => updateField('address', event.target.value)}
                 />
@@ -185,7 +185,7 @@ export function ReservationFormPage() {
                 <span>実施場所住所 *</span>
                 <input
                   required
-                  placeholder="例: 東京都千代田区〇〇1-2-3 ○○会議室"
+                  placeholder="例: 千代田区〇〇1-2-3 ○○会議室"
                   value={draft.venueAddress}
                   onChange={(event) => updateField('venueAddress', event.target.value)}
                 />
@@ -194,52 +194,11 @@ export function ReservationFormPage() {
                 <span>受講対象者 *</span>
                 <input
                   required
-                  placeholder="例: 新入社員20名"
+                  placeholder="例: 職員、教員、会員等"
                   value={draft.targetAudience}
                   onChange={(event) => updateField('targetAudience', event.target.value)}
                 />
               </label>
-            </div>
-          </section>
-
-          <section className="form-card">
-            <h2>追加テキスト購入</h2>
-            <label className="toggle-row">
-              <input
-                checked={draft.wantsAdditionalTextbooks}
-                type="checkbox"
-                onChange={(event) =>
-                  updateField('wantsAdditionalTextbooks', event.target.checked)
-                }
-              />
-              <span>追加購入されたい方はこちらをチェック</span>
-            </label>
-            <p className="lead lead--small">
-              講習人数とは別で、テキストのみ追加で必要な場合に入力してください。
-            </p>
-            <div
-              className={`form-grid${draft.wantsAdditionalTextbooks ? '' : ' form-grid--disabled'}`}
-            >
-              {additionalTextbookOptions.map((option) => (
-                <label key={option.key}>
-                  <span>{option.label}</span>
-                  <input
-                    disabled={!draft.wantsAdditionalTextbooks}
-                    min="0"
-                    type="number"
-                    value={draft.additionalTextbookCounts[option.key] || ''}
-                    onChange={(event) =>
-                      setDraft((current) => ({
-                        ...current,
-                        additionalTextbookCounts: {
-                          ...current.additionalTextbookCounts,
-                          [option.key]: Number(event.target.value) || 0,
-                        },
-                      }))
-                    }
-                  />
-                </label>
-              ))}
             </div>
           </section>
 
@@ -355,6 +314,47 @@ export function ReservationFormPage() {
                   複数の講習種別が選択されています。講習時間は最も長いものに合わせます。別をご希望の場合は、別日に講習を分けて予約してください。
                 </p>
               ) : null}
+            </div>
+          </section>
+
+          <section className="form-card">
+            <h2>追加テキスト購入</h2>
+            <label className="toggle-row">
+              <input
+                checked={draft.wantsAdditionalTextbooks}
+                type="checkbox"
+                onChange={(event) =>
+                  updateField('wantsAdditionalTextbooks', event.target.checked)
+                }
+              />
+              <span>追加購入されたい方はこちらをチェック</span>
+            </label>
+            <p className="lead lead--small">
+              講習人数とは別で、テキストのみ追加で必要な場合に入力してください。
+            </p>
+            <div
+              className={`form-grid${draft.wantsAdditionalTextbooks ? '' : ' form-grid--disabled'}`}
+            >
+              {additionalTextbookOptions.map((option) => (
+                <label key={option.key}>
+                  <span>{option.label}</span>
+                  <input
+                    disabled={!draft.wantsAdditionalTextbooks}
+                    min="0"
+                    type="number"
+                    value={draft.additionalTextbookCounts[option.key] || ''}
+                    onChange={(event) =>
+                      setDraft((current) => ({
+                        ...current,
+                        additionalTextbookCounts: {
+                          ...current.additionalTextbookCounts,
+                          [option.key]: Number(event.target.value) || 0,
+                        },
+                      }))
+                    }
+                  />
+                </label>
+              ))}
             </div>
           </section>
 

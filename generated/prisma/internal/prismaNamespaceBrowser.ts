@@ -109,6 +109,12 @@ export const SiteContentScalarFieldEnum = {
   guideTitle: 'guideTitle',
   guideBody: 'guideBody',
   fireStationPhone: 'fireStationPhone',
+  feeHelpText: 'feeHelpText',
+  additionalTextbookFeeBasicInitial: 'additionalTextbookFeeBasicInitial',
+  additionalTextbookFeeBasicRenewal: 'additionalTextbookFeeBasicRenewal',
+  additionalTextbookFeeBasicEnglish: 'additionalTextbookFeeBasicEnglish',
+  additionalTextbookFeeAdvancedInitial: 'additionalTextbookFeeAdvancedInitial',
+  additionalTextbookFeeAdvancedRenewal: 'additionalTextbookFeeAdvancedRenewal',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { api } from '../lib/api'
+import type { ReservationLookupResult } from '../lib/types'
 
 export function ReservationLookupPage() {
   const navigate = useNavigate()
@@ -16,6 +17,9 @@ export function ReservationLookupPage() {
             <p className="card-kicker">予約確認</p>
             <h1>予約内容の確認</h1>
           </div>
+          <p className="lead lead--small">
+            予約番号と確認キーを入力すると、予約の状態を確認できます。どちらかがわからない場合は消防署へ電話連絡してください。
+          </p>
         </div>
 
         <section className="form-card">
@@ -26,12 +30,20 @@ export function ReservationLookupPage() {
               setError('')
 
               try {
-                await api.lookupReservation({ reservationNumber, confirmationCode })
+                const reservation = await api.lookupReservation({ reservationNumber, confirmationCode })
+                const nextState: LookupNavigationState = {
+                  reservationNumber,
+                  confirmationCode,
+                  reservation,
+                }
                 navigate('/reservation/lookup/result', {
-                  state: { reservationNumber, confirmationCode },
+                  state: nextState,
                 })
               } catch (lookupError) {
-                setError(lookupError instanceof Error ? lookupError.message : '予約確認に失敗しました')
+                const fallbackMessage =
+                  '検索結果にありません。予約番号または確認キーがわからない場合は消防署へ電話連絡してください。'
+
+                setError(lookupError instanceof Error ? fallbackMessage : fallbackMessage)
               }
             }}
           >
@@ -60,4 +72,10 @@ export function ReservationLookupPage() {
       </section>
     </main>
   )
+}
+
+type LookupNavigationState = {
+  reservationNumber: string
+  confirmationCode: string
+  reservation: ReservationLookupResult
 }

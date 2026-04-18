@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { ReservationStatusBadge } from '../components/booking/ReservationStatusBadge'
 import { api } from '../lib/api'
 import type { ReservationLookupResult } from '../lib/types'
 
@@ -7,9 +8,15 @@ export function ReservationLookupResultPage() {
   const location = useLocation()
   const navigate = useNavigate()
   const state = location.state as
-    | { reservationNumber?: string; confirmationCode?: string }
+    | {
+        reservationNumber?: string
+        confirmationCode?: string
+        reservation?: ReservationLookupResult
+      }
     | undefined
-  const [reservation, setReservation] = useState<ReservationLookupResult | null>(null)
+  const [reservation, setReservation] = useState<ReservationLookupResult | null>(
+    state?.reservation ?? null
+  )
   const [fireStationPhone, setFireStationPhone] = useState('')
   const [error, setError] = useState('')
   const [showCancelModal, setShowCancelModal] = useState(false)
@@ -18,6 +25,8 @@ export function ReservationLookupResultPage() {
     if (!state?.reservationNumber || !state.confirmationCode) {
       return
     }
+
+    if (state.reservation) return
 
     void api
       .lookupReservation({
@@ -61,7 +70,9 @@ export function ReservationLookupResultPage() {
               </div>
               <div>
                 <dt>状態</dt>
-                <dd>{formatReservationStatus(reservation.status)}</dd>
+                <dd>
+                  <ReservationStatusBadge status={reservation.status} />
+                </dd>
               </div>
               <div>
                 <dt>確定日時</dt>
@@ -152,12 +163,6 @@ export function ReservationLookupResultPage() {
       ) : null}
     </main>
   )
-}
-
-function formatReservationStatus(status: ReservationLookupResult['status']) {
-  if (status === 'pending') return '受付中'
-  if (status === 'confirmed') return '確定'
-  return 'キャンセル'
 }
 
 function formatDateTime(value: string) {

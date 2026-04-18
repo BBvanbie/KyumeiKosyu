@@ -113,15 +113,36 @@ async function upsertSiteContent() {
     await client.query(
       `
         insert into "SiteContent"
-          ("id", "heroTitle", "heroDescription", "guideTitle", "guideBody", "fireStationPhone", "createdAt", "updatedAt")
+          (
+            "id",
+            "heroTitle",
+            "heroDescription",
+            "guideTitle",
+            "guideBody",
+            "fireStationPhone",
+            "feeHelpText",
+            "additionalTextbookFeeBasicInitial",
+            "additionalTextbookFeeBasicRenewal",
+            "additionalTextbookFeeBasicEnglish",
+            "additionalTextbookFeeAdvancedInitial",
+            "additionalTextbookFeeAdvancedRenewal",
+            "createdAt",
+            "updatedAt"
+          )
         values
-          ($1, $2, $3, $4, $5, $6, now(), now())
+          ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, now(), now())
         on conflict ("id") do update set
           "heroTitle" = excluded."heroTitle",
           "heroDescription" = excluded."heroDescription",
           "guideTitle" = excluded."guideTitle",
           "guideBody" = excluded."guideBody",
           "fireStationPhone" = excluded."fireStationPhone",
+          "feeHelpText" = excluded."feeHelpText",
+          "additionalTextbookFeeBasicInitial" = excluded."additionalTextbookFeeBasicInitial",
+          "additionalTextbookFeeBasicRenewal" = excluded."additionalTextbookFeeBasicRenewal",
+          "additionalTextbookFeeBasicEnglish" = excluded."additionalTextbookFeeBasicEnglish",
+          "additionalTextbookFeeAdvancedInitial" = excluded."additionalTextbookFeeAdvancedInitial",
+          "additionalTextbookFeeAdvancedRenewal" = excluded."additionalTextbookFeeAdvancedRenewal",
           "updatedAt" = now()
       `,
       [
@@ -131,6 +152,12 @@ async function upsertSiteContent() {
         'ご利用案内',
         '予約送信後、消防署からのお電話で受付確定となります。英語版講習や予約不可日がある場合は、画面内の案内をご確認ください。',
         '03-0000-0000',
+        '講習料は振込対応のみです。当日振込用紙をお渡しします。',
+        0,
+        0,
+        0,
+        0,
+        0,
       ]
     )
   } finally {

@@ -36,14 +36,20 @@ model BookingSetting {
 }
 
 model SiteContent {
-  id                  String   @id
-  heroTitle           String
-  heroDescription     String
-  guideTitle          String
-  guideBody           String
-  fireStationPhone    String   @default("03-0000-0000")
-  createdAt           DateTime @default(now())
-  updatedAt           DateTime @updatedAt
+  id                                   String   @id
+  heroTitle                            String
+  heroDescription                      String
+  guideTitle                           String
+  guideBody                            String
+  fireStationPhone                     String   @default("03-0000-0000")
+  feeHelpText                          String   @default("講習料は振込対応のみです。当日振込用紙をお渡しします。")
+  additionalTextbookFeeBasicInitial    Int      @default(0)
+  additionalTextbookFeeBasicRenewal    Int      @default(0)
+  additionalTextbookFeeBasicEnglish    Int      @default(0)
+  additionalTextbookFeeAdvancedInitial Int      @default(0)
+  additionalTextbookFeeAdvancedRenewal Int      @default(0)
+  createdAt                            DateTime @default(now())
+  updatedAt                            DateTime @updatedAt
 }
 
 model ReservationType {

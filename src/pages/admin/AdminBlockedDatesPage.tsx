@@ -56,6 +56,7 @@ export function AdminBlockedDatesPage() {
           <CalendarPicker
             blockedDates={blockedDates.map((entry) => entry.date)}
             disabledBlockedDates={false}
+            disablePastDates={false}
             label="予約不可日登録カレンダー"
             onSelect={(date) => {
               setSelectedDate(date)

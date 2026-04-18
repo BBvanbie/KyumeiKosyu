@@ -53,7 +53,7 @@ adminAuthRouter.get('/me', (req, res) => {
   const session = verifySessionToken(token)
 
   if (!session) {
-    res.status(401).json({ authenticated: false })
+    res.json({ authenticated: false, username: null })
     return
   }
 

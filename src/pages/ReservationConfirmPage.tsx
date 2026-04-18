@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { CompletionModal } from '../components/booking/CompletionModal'
 import { api } from '../lib/api'
 import { clearBookingDraft, getBookingDraft } from '../lib/bookingDraft'
+import { buildFeeSummary } from '../lib/feeSummary'
+import { buildReservationPayload } from '../lib/reservationPayload'
 import {
   additionalTextbookOptions,
   hasEnglishCourse,
@@ -12,20 +13,20 @@ import {
   getLongestDurationMinutes,
   getValidReservationItems,
 } from '../lib/reservationSchedule'
-import type { ReservationType } from '../lib/types'
+import type { ReservationType, SiteContent } from '../lib/types'
 
 export function ReservationConfirmPage() {
   const navigate = useNavigate()
   const draft = getBookingDraft()
   const [reservationTypes, setReservationTypes] = useState<ReservationType[]>([])
+  const [siteContent, setSiteContent] = useState<SiteContent | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isModalOpen, setIsModalOpen] = useState(false)
   const [error, setError] = useState('')
-  const [reservationNumber, setReservationNumber] = useState('')
-  const [confirmationCode, setConfirmationCode] = useState('')
+  const [isFeeHelpOpen, setIsFeeHelpOpen] = useState(false)
 
   useEffect(() => {
     void api.getReservationTypes().then(setReservationTypes).catch(() => setReservationTypes([]))
+    void api.getHomeSiteContent().then(setSiteContent).catch(() => setSiteContent(null))
   }, [])
 
   const validItems = useMemo(() => getValidReservationItems(draft.items), [draft.items])
@@ -40,6 +41,15 @@ export function ReservationConfirmPage() {
   const estimatedEndTime = useMemo(
     () => calculateEndTime(draft.preferredStartTime, longestDurationMinutes),
     [draft.preferredStartTime, longestDurationMinutes]
+  )
+  const feeSummary = useMemo(
+    () =>
+      buildFeeSummary({
+        draft,
+        reservationTypes,
+        siteContent,
+      }),
+    [draft, reservationTypes, siteContent]
   )
 
   if (
@@ -174,6 +184,82 @@ export function ReservationConfirmPage() {
             </div>
           ) : null}
 
+          <div className="summary-items fee-summary-card">
+            <div className="fee-summary-card__head">
+              <h2>当日かかる金額</h2>
+              <button
+                aria-expanded={isFeeHelpOpen}
+                className="fee-help-trigger"
+                onClick={() => setIsFeeHelpOpen((current) => !current)}
+                type="button"
+              >
+                ?
+              </button>
+            </div>
+            {isFeeHelpOpen ? (
+              <div className="fee-help-popover">
+                <p>
+                  {siteContent?.feeHelpText ??
+                    '講習料は振込対応のみです。当日振込用紙をお渡しします。'}
+                </p>
+              </div>
+            ) : null}
+
+            <div className="summary-items__list">
+              {feeSummary.courseFeeLines.map((line) => (
+                <div key={`${line.label}-${line.participantCount}`} className="summary-items__row">
+                  <span>
+                    {line.label} 1人あたり {formatCurrency(line.unitFee)}
+                  </span>
+                  <span>{line.participantCount}名</span>
+                </div>
+              ))}
+              {feeSummary.courseFeeLines.map((line) => (
+                <div
+                  key={`${line.label}-${line.participantCount}-subtotal`}
+                  className="summary-items__row"
+                >
+                  <span>{line.label} 合計</span>
+                  <span>{formatCurrency(line.subtotal)}</span>
+                </div>
+              ))}
+              {feeSummary.additionalTextbookFeeLines.map((line) => (
+                <div key={line.key} className="summary-items__row">
+                  <span>
+                    {line.label} {line.count}部 × {formatCurrency(line.unitFee)}
+                  </span>
+                  <span>{formatCurrency(line.subtotal)}</span>
+                </div>
+              ))}
+              {feeSummary.additionalTextbookFeeLines.length > 0 ? (
+                <>
+                  <div className="summary-items__row summary-items__row--strong">
+                    <span>講習料合計</span>
+                    <span>{formatCurrency(feeSummary.courseTotal)}</span>
+                  </div>
+                  <div className="summary-items__row summary-items__row--strong">
+                    <span>追加テキスト代</span>
+                    <span>{formatCurrency(feeSummary.additionalTextbookTotal)}</span>
+                  </div>
+                  <div className="summary-items__row summary-items__row--accent">
+                    <span>お支払い合計</span>
+                    <span>{formatCurrency(feeSummary.grandTotal)}</span>
+                  </div>
+                </>
+              ) : feeSummary.courseFeeLines.length === 1 ? (
+                <div className="summary-items__row summary-items__row--accent">
+                  <span>合計</span>
+                  <span>{formatCurrency(feeSummary.courseTotal)}</span>
+                </div>
+              ) : (
+                <div className="summary-items__row summary-items__row--accent">
+                  <span>講習料合計</span>
+                  <span>{formatCurrency(feeSummary.courseTotal)}</span>
+                </div>
+              )}
+            </div>
+          </div>
+
           {validItems.length > 1 ? (
             <p className="warning-text">
               複数の講習種別が選択されています。講習時間は最も長いものに合わせます。別をご希望の場合は、別日に講習を分けて予約してください。
@@ -194,11 +280,14 @@ export function ReservationConfirmPage() {
                 setIsSubmitting(true)
 
                 try {
-                  const result = await api.createReservation(draft)
-                  setReservationNumber(result.reservation.reservationNumber)
-                  setConfirmationCode(result.confirmationCode)
+                  const result = await api.createReservation(buildReservationPayload(draft))
                   clearBookingDraft()
-                  setIsModalOpen(true)
+                  navigate('/reserve/complete', {
+                    state: {
+                      reservationNumber: result.reservation.reservationNumber,
+                      confirmationCode: result.confirmationCode,
+                    },
+                  })
                 } catch (submitError) {
                   setError(
                     submitError instanceof Error ? submitError.message : '送信に失敗しました'
@@ -214,16 +303,10 @@ export function ReservationConfirmPage() {
           </div>
         </section>
       </section>
-
-      <CompletionModal
-        confirmationCode={confirmationCode}
-        isOpen={isModalOpen}
-        onClose={() => {
-          setIsModalOpen(false)
-          navigate('/')
-        }}
-        reservationNumber={reservationNumber}
-      />
     </main>
   )
+}
+
+function formatCurrency(value: number) {
+  return `${value.toLocaleString('ja-JP')}円`
 }

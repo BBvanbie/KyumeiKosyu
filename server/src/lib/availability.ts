@@ -3,6 +3,7 @@ import { prisma } from './prisma.js'
 
 type AvailabilityReason =
   | 'manual_block'
+  | 'reserved'
   | 'daily_limit'
   | 'weekly_limit'
   | 'monthly_limit'
@@ -132,6 +133,8 @@ export async function calculateAvailability({
 
     if (manualBlocked.has(dateKey)) {
       reason = 'manual_block'
+    } else if (dayCount > 0) {
+      reason = 'reserved'
     } else if (dayCount >= resolvedSetting.dailyLimit) {
       reason = 'daily_limit'
     } else if (weekCount >= resolvedSetting.weeklyLimit) {

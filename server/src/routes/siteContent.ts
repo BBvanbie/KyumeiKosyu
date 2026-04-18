@@ -8,6 +8,13 @@ const siteContentSchema = z.object({
   heroDescription: z.string().min(1),
   guideTitle: z.string().min(1),
   guideBody: z.string().min(1),
+  fireStationPhone: z.string().min(1),
+  feeHelpText: z.string().min(1),
+  additionalTextbookFeeBasicInitial: z.number().int().min(0),
+  additionalTextbookFeeBasicRenewal: z.number().int().min(0),
+  additionalTextbookFeeBasicEnglish: z.number().int().min(0),
+  additionalTextbookFeeAdvancedInitial: z.number().int().min(0),
+  additionalTextbookFeeAdvancedRenewal: z.number().int().min(0),
 })
 
 export const siteContentRouter = Router()

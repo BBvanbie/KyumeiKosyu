@@ -52,6 +52,12 @@ export type SiteContent = {
   guideTitle: string
   guideBody: string
   fireStationPhone: string
+  feeHelpText: string
+  additionalTextbookFeeBasicInitial: number
+  additionalTextbookFeeBasicRenewal: number
+  additionalTextbookFeeBasicEnglish: number
+  additionalTextbookFeeAdvancedInitial: number
+  additionalTextbookFeeAdvancedRenewal: number
   updatedAt: string
 }
 
@@ -68,6 +74,7 @@ export type EffectiveBlockedDate = {
   date: string
   reason:
     | 'manual_block'
+    | 'reserved'
     | 'daily_limit'
     | 'weekly_limit'
     | 'monthly_limit'
