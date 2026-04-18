@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 import holidayJp from 'holiday-jp'
-import { useMemo, useState } from 'react'
+import { useMemo, useState, type MouseEvent } from 'react'
 
 const weekdayLabels = ['日', '月', '火', '水', '木', '金', '土'] as const
 
@@ -8,6 +8,9 @@ type CalendarPickerProps = {
   blockedDates: string[]
   selectedDate: string
   onSelect: (date: string) => void
+  selectedDates?: string[]
+  onSelectDates?: (dates: string[], options: { keepMultiSelect: boolean }) => void
+  multiSelectEnabled?: boolean
   disabledBlockedDates?: boolean
   disablePastDates?: boolean
   label?: string
@@ -18,10 +21,14 @@ export function CalendarPicker({
   disabledBlockedDates = true,
   disablePastDates = true,
   label = '予約日カレンダー',
+  multiSelectEnabled = false,
   onSelect,
+  onSelectDates,
   selectedDate,
+  selectedDates = [],
 }: CalendarPickerProps) {
   const blocked = new Set(blockedDates.map((date) => dayjs(date).format('YYYY-MM-DD')))
+  const selectedDateSet = useMemo(() => new Set(selectedDates), [selectedDates])
   const today = dayjs().startOf('day')
   const [visibleMonth, setVisibleMonth] = useState(
     selectedDate ? dayjs(selectedDate).startOf('month') : dayjs().startOf('month')
@@ -46,6 +53,26 @@ export function CalendarPicker({
       return startOfMonth.date(dayNumber)
     })
   }, [visibleMonth])
+
+  const handleDateClick = (key: string, event: MouseEvent<HTMLButtonElement>) => {
+    const keepMultiSelect = multiSelectEnabled || event.ctrlKey || event.metaKey
+
+    setVisibleMonth(dayjs(key).startOf('month'))
+
+    if (onSelectDates) {
+      if (keepMultiSelect) {
+        const nextDates = selectedDateSet.has(key)
+          ? selectedDates.filter((date) => date !== key)
+          : [...selectedDates, key].sort()
+
+        onSelectDates(nextDates, { keepMultiSelect })
+      } else {
+        onSelectDates([key], { keepMultiSelect: false })
+      }
+    }
+
+    onSelect(key)
+  }
 
   return (
     <div className="calendar" aria-label={label}>
@@ -101,7 +128,7 @@ export function CalendarPicker({
           const isBlocked = blocked.has(key)
           const isPast = disablePastDates && date.isBefore(today, 'day')
           const isDisabled = isBlocked || isPast
-          const isSelected = selectedDate === key
+          const isSelected = selectedDate === key || selectedDateSet.has(key)
           const dayOfWeek = date.day()
           const isSaturday = dayOfWeek === 6
           const isSunday = dayOfWeek === 0
@@ -122,10 +149,7 @@ export function CalendarPicker({
               key={key}
               className={className}
               disabled={(disabledBlockedDates && isBlocked) || isPast}
-              onClick={() => {
-                setVisibleMonth(date.startOf('month'))
-                onSelect(key)
-              }}
+              onClick={(event) => handleDateClick(key, event)}
               type="button"
             >
               <span className="calendar-day__month">{date.format('M月')}</span>

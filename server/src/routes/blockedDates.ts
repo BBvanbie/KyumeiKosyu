@@ -8,6 +8,10 @@ const blockedDateSchema = z.object({
   reason: z.string().optional().or(z.literal('')),
 })
 
+const blockedDateDeleteSchema = z.object({
+  dates: z.array(z.string().min(1)).min(1),
+})
+
 const blockedDateRangeSchema = z.object({
   startDate: z.string().min(1),
   endDate: z.string().min(1),
@@ -40,6 +44,25 @@ blockedDatesRouter.post('/', requireAdmin, async (req, res) => {
   })
 
   res.status(201).json(blockedDate)
+})
+
+blockedDatesRouter.delete('/', requireAdmin, async (req, res) => {
+  const parsed = blockedDateDeleteSchema.safeParse(req.body)
+
+  if (!parsed.success) {
+    res.status(400).json({ message: 'Invalid blocked date delete payload' })
+    return
+  }
+
+  const deleted = await prisma.blockedDate.deleteMany({
+    where: {
+      date: {
+        in: parsed.data.dates.map((date) => new Date(date)),
+      },
+    },
+  })
+
+  res.json({ deletedCount: deleted.count })
 })
 
 blockedDatesRouter.post('/bulk', requireAdmin, async (req, res) => {

@@ -86,6 +86,11 @@ export const api = {
       method: 'POST',
       body: JSON.stringify(payload),
     }),
+  deleteBlockedDates: (payload: { dates: string[] }) =>
+    request<{ deletedCount: number }>('/api/blocked-dates', {
+      method: 'DELETE',
+      body: JSON.stringify(payload),
+    }),
   createBlockedDateRange: (payload: { startDate: string; endDate: string; reason?: string }) =>
     request<BlockedDate[]>('/api/blocked-dates/bulk', {
       method: 'POST',

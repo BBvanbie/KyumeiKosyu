@@ -503,6 +503,10 @@ img {
   margin-top: 28px;
 }
 
+.admin-card-grid--calendar {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 .admin-card-grid__full {
   grid-column: 1 / -1;
 }
@@ -731,6 +735,31 @@ img {
   box-shadow:
     rgba(255, 56, 92, 0.12) 0 0 0 3px,
     var(--shadow-card);
+}
+
+.calendar-selection-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.calendar-selection-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.calendar-selection-summary__text {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+
+.section-description {
+  margin: 8px 0 0;
+  color: var(--color-text-secondary);
 }
 
 .calendar-day:disabled {
@@ -1310,8 +1339,93 @@ img {
   border-bottom: 1px solid var(--color-border-soft);
 }
 
+.blocked-list-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.blocked-list-actions__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.stack-list__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.stack-list__checkbox {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+}
+
+.stack-list__checkbox input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.stack-list__checkbox-indicator {
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--shadow-card);
+}
+
+.stack-list__checkbox input:checked + .stack-list__checkbox-indicator {
+  border-color: var(--color-brand);
+  background: rgba(255, 56, 92, 0.12);
+  box-shadow:
+    rgba(255, 56, 92, 0.14) 0 0 0 3px,
+    var(--shadow-card);
+}
+
+.stack-list__content {
+  flex: 1 1 auto;
+}
+
+.stack-list__row span {
+  display: block;
+  margin-top: 4px;
+  color: var(--color-text-secondary);
+}
+
 .form-card--stacked {
   margin-top: 24px;
+}
+
+.selection-chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 16px 0 20px;
+}
+
+.selection-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 14px;
+  border-radius: var(--radius-circle);
+  background: rgba(255, 56, 92, 0.08);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-small);
+  font-weight: 700;
 }
 
 .type-settings-table {
