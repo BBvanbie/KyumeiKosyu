@@ -13,11 +13,42 @@ import { siteContentRouter } from './routes/siteContent.js'
 
 export const app = express()
 
-const clientOrigin = process.env.CLIENT_ORIGIN ?? 'http://localhost:5173'
+const configuredOrigins = (process.env.CLIENT_ORIGIN ?? 'http://localhost:5173')
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean)
+
+function isAllowedOrigin(origin?: string) {
+  if (!origin) {
+    return true
+  }
+
+  if (configuredOrigins.includes(origin)) {
+    return true
+  }
+
+  try {
+    const url = new URL(origin)
+    return (
+      url.protocol === 'https:' &&
+      url.hostname.endsWith('.vercel.app') &&
+      url.hostname.startsWith('kyumei-kosyu')
+    )
+  } catch {
+    return false
+  }
+}
 
 app.use(
   cors({
-    origin: clientOrigin,
+    origin(origin, callback) {
+      if (isAllowedOrigin(origin)) {
+        callback(null, true)
+        return
+      }
+
+      callback(new Error('Origin not allowed by CORS'))
+    },
     credentials: true,
   })
 )

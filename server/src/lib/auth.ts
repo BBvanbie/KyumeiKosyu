@@ -1,8 +1,27 @@
 import crypto from 'node:crypto'
 import type { Response } from 'express'
+import type { CookieOptions } from 'express'
 
 const COOKIE_NAME = 'kyumei_admin_session'
 const ONE_DAY_IN_MS = 1000 * 60 * 60 * 24
+
+function getCookieOptions(): CookieOptions {
+  if (process.env.NODE_ENV === 'production') {
+    return {
+      httpOnly: true,
+      sameSite: 'none',
+      secure: true,
+      maxAge: ONE_DAY_IN_MS,
+    }
+  }
+
+  return {
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: false,
+    maxAge: ONE_DAY_IN_MS,
+  }
+}
 
 function getSecret() {
   const secret = process.env.SESSION_SECRET
@@ -45,16 +64,11 @@ export function verifySessionToken(token?: string) {
 }
 
 export function setAdminSession(res: Response, username: string) {
-  res.cookie(COOKIE_NAME, createSessionToken(username), {
-    httpOnly: true,
-    sameSite: 'lax',
-    secure: false,
-    maxAge: ONE_DAY_IN_MS,
-  })
+  res.cookie(COOKIE_NAME, createSessionToken(username), getCookieOptions())
 }
 
 export function clearAdminSession(res: Response) {
-  res.clearCookie(COOKIE_NAME)
+  res.clearCookie(COOKIE_NAME, getCookieOptions())
 }
 
 export function getAdminSessionCookieName() {
