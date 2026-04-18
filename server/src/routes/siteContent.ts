@@ -1,5 +1,4 @@
 import { Router } from 'express'
-import type { Request, Response } from 'express'
 import { z } from 'zod'
 import { prisma } from '../lib/prisma.js'
 import { requireAdmin } from '../middleware/requireAdmin.js'
@@ -13,15 +12,15 @@ const siteContentSchema = z.object({
 
 export const siteContentRouter = Router()
 
-export async function getHomeSiteContentHandler(_req: Request, res: Response) {
+siteContentRouter.get('/home', async (_req, res) => {
   const content = await prisma.siteContent.findUnique({
     where: { id: 'home' },
   })
 
   res.json(content)
-}
+})
 
-export async function updateHomeSiteContentHandler(req: Request, res: Response) {
+siteContentRouter.put('/home', requireAdmin, async (req, res) => {
   const parsed = siteContentSchema.safeParse(req.body)
 
   if (!parsed.success) {
@@ -39,7 +38,4 @@ export async function updateHomeSiteContentHandler(req: Request, res: Response) 
   })
 
   res.json(content)
-}
-
-siteContentRouter.get('/home', getHomeSiteContentHandler)
-siteContentRouter.put('/home', requireAdmin, updateHomeSiteContentHandler)
+})

@@ -44,14 +44,14 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 }
 
 export const api = {
-  getAdminMe: () => request<{ authenticated: boolean; username: string }>('/api/admin-me'),
+  getAdminMe: () => request<{ authenticated: boolean; username: string }>('/api/admin/me'),
   adminLogin: (payload: { username: string; password: string }) =>
-    request<{ username: string }>('/api/admin-login', {
+    request<{ username: string }>('/api/admin/login', {
       method: 'POST',
       body: JSON.stringify(payload),
     }),
   adminLogout: () =>
-    request<void>('/api/admin-logout', {
+    request<void>('/api/admin/logout', {
       method: 'POST',
     }),
   getReservationTypes: () => request<ReservationType[]>('/api/reservation-types'),
@@ -70,13 +70,13 @@ export const api = {
       method: 'PUT',
       body: JSON.stringify(payload),
     }),
-  getHomeSiteContent: () => request<SiteContent | null>('/api/site-content-home'),
+  getHomeSiteContent: () => request<SiteContent | null>('/api/site-content/home'),
   updateHomeSiteContent: (payload: Omit<SiteContent, 'id' | 'updatedAt'>) =>
-    request<SiteContent>('/api/site-content-home', {
+    request<SiteContent>('/api/site-content/home', {
       method: 'PUT',
       body: JSON.stringify(payload),
     }),
-  getAvailability: () => request<AvailabilityResponse>('/api/availability'),
+  getAvailability: () => request<AvailabilityResponse>('/api/booking-settings/availability'),
   createBlockedDate: (payload: { date: string; reason?: string }) =>
     request<BlockedDate>('/api/blocked-dates', {
       method: 'POST',
