@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs'
 import { Router } from 'express'
+import type { Request, Response } from 'express'
 import { z } from 'zod'
 import {
   clearAdminSession,
@@ -16,7 +17,7 @@ const loginSchema = z.object({
 
 export const adminAuthRouter = Router()
 
-adminAuthRouter.post('/login', async (req, res) => {
+export async function adminLoginHandler(req: Request, res: Response) {
   const parsed = loginSchema.safeParse(req.body)
 
   if (!parsed.success) {
@@ -41,14 +42,14 @@ adminAuthRouter.post('/login', async (req, res) => {
 
   setAdminSession(res, admin.username)
   res.json({ username: admin.username })
-})
+}
 
-adminAuthRouter.post('/logout', (_req, res) => {
+export function adminLogoutHandler(_req: Request, res: Response) {
   clearAdminSession(res)
   res.status(204).send()
-})
+}
 
-adminAuthRouter.get('/me', (req, res) => {
+export function adminMeHandler(req: Request, res: Response) {
   const token = req.cookies[getAdminSessionCookieName()]
   const session = verifySessionToken(token)
 
@@ -61,4 +62,8 @@ adminAuthRouter.get('/me', (req, res) => {
     authenticated: true,
     username: session.username,
   })
-})
+}
+
+adminAuthRouter.post('/login', adminLoginHandler)
+adminAuthRouter.post('/logout', adminLogoutHandler)
+adminAuthRouter.get('/me', adminMeHandler)

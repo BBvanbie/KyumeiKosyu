@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import type { Request, Response } from 'express'
 import { z } from 'zod'
 import { calculateAvailability, getBookingSetting } from '../lib/availability.js'
 import { prisma } from '../lib/prisma.js'
@@ -34,7 +35,7 @@ bookingSettingsRouter.put('/', requireAdmin, async (req, res) => {
   res.json(setting)
 })
 
-bookingSettingsRouter.get('/availability', async (_req, res) => {
+export async function bookingAvailabilityHandler(_req: Request, res: Response) {
   const start = new Date()
   start.setUTCHours(0, 0, 0, 0)
   const end = new Date(start)
@@ -46,4 +47,6 @@ bookingSettingsRouter.get('/availability', async (_req, res) => {
   })
 
   res.json(availability)
-})
+}
+
+bookingSettingsRouter.get('/availability', bookingAvailabilityHandler)
