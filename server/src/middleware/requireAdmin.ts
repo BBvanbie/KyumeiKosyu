@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from 'express'
-import { getAdminSessionCookieName, verifySessionToken } from '../lib/auth'
+import { getAdminSessionCookieName, verifySessionToken } from '../lib/auth.js'
 
 export function requireAdmin(req: Request, res: Response, next: NextFunction) {
   const token = req.cookies[getAdminSessionCookieName()]
@@ -10,6 +10,6 @@ export function requireAdmin(req: Request, res: Response, next: NextFunction) {
     return
   }
 
-  req.adminUsername = session.username
+  ;(req as Request & { adminUsername?: string }).adminUsername = session.username
   next()
 }

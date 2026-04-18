@@ -1,10 +1,10 @@
 import { Router } from 'express'
 import bcrypt from 'bcryptjs'
-import { ReservationStatus } from '../../../generated/prisma/enums'
+import { ReservationStatus } from '../../../generated/prisma/enums.js'
 import { z } from 'zod'
-import { calculateAvailability } from '../lib/availability'
-import { prisma } from '../lib/prisma'
-import { requireAdmin } from '../middleware/requireAdmin'
+import { calculateAvailability } from '../lib/availability.js'
+import { prisma } from '../lib/prisma.js'
+import { requireAdmin } from '../middleware/requireAdmin.js'
 
 const additionalTextbookCountsSchema = z.object({
   basicInitial: z.number().int().min(0),

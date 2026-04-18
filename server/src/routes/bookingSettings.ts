@@ -1,8 +1,8 @@
 import { Router } from 'express'
 import { z } from 'zod'
-import { calculateAvailability, getBookingSetting } from '../lib/availability'
-import { prisma } from '../lib/prisma'
-import { requireAdmin } from '../middleware/requireAdmin'
+import { calculateAvailability, getBookingSetting } from '../lib/availability.js'
+import { prisma } from '../lib/prisma.js'
+import { requireAdmin } from '../middleware/requireAdmin.js'
 
 const bookingSettingSchema = z.object({
   monthlyLimit: z.number().int().min(1),

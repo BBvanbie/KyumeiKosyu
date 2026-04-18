@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import { z } from 'zod'
-import { prisma } from '../lib/prisma'
-import { requireAdmin } from '../middleware/requireAdmin'
+import { prisma } from '../lib/prisma.js'
+import { requireAdmin } from '../middleware/requireAdmin.js'
 
 export const reservationTypesRouter = Router()
 

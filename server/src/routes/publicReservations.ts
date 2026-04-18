@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs'
 import { Router } from 'express'
-import { prisma } from '../lib/prisma'
+import { prisma } from '../lib/prisma.js'
 
 export const publicReservationsRouter = Router()
 

@@ -1,6 +1,6 @@
 import { Router } from 'express'
-import { prisma } from '../lib/prisma'
-import { requireAdmin } from '../middleware/requireAdmin'
+import { prisma } from '../lib/prisma.js'
+import { requireAdmin } from '../middleware/requireAdmin.js'
 
 export const adminNotificationsRouter = Router()
 

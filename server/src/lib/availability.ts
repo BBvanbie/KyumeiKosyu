@@ -1,5 +1,5 @@
-import type { BookingSetting } from '../../../generated/prisma/client'
-import { prisma } from './prisma'
+import type { BookingSetting } from '../../../generated/prisma/client.js'
+import { prisma } from './prisma.js'
 
 type AvailabilityReason =
   | 'manual_block'

@@ -6,8 +6,8 @@ import {
   getAdminSessionCookieName,
   setAdminSession,
   verifySessionToken,
-} from '../lib/auth'
-import { prisma } from '../lib/prisma'
+} from '../lib/auth.js'
+import { prisma } from '../lib/prisma.js'
 
 const loginSchema = z.object({
   username: z.string().min(1),

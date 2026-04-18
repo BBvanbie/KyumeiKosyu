@@ -2,7 +2,7 @@ import 'dotenv/config'
 import bcrypt from 'bcryptjs'
 import { PrismaPg } from '@prisma/adapter-pg'
 import pg from 'pg'
-import { PrismaClient } from '../generated/prisma/client'
+import { PrismaClient } from '../generated/prisma/client.js'
 
 const connectionString = process.env.DATABASE_URL ?? process.env.DATABASE_POOL_URL ?? ''
 const adapter = new PrismaPg({ connectionString })
