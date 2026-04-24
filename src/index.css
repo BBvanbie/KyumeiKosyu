@@ -653,7 +653,7 @@ img {
   text-align: center;
   font-size: var(--font-size-small);
   font-weight: 700;
-  color: var(--color-text-secondary);
+  color: var(--color-text-primary);
 }
 
 .calendar-weekdays__item.is-sunday {
@@ -671,6 +671,7 @@ img {
   border-radius: var(--radius-card);
   background: var(--color-surface);
   box-shadow: var(--shadow-card);
+  color: var(--color-text-primary);
   text-align: center;
   cursor: pointer;
 }
@@ -691,6 +692,7 @@ img {
 .calendar-day strong {
   display: block;
   margin-top: 8px;
+  color: var(--color-text-primary);
   font-size: var(--font-size-calendar-day);
 }
 
@@ -724,8 +726,6 @@ img {
   color: var(--color-danger);
 }
 
-.calendar-day.is-blocked strong,
-.calendar-day.is-blocked .calendar-day__month,
 .calendar-day.is-blocked .calendar-day__state {
   color: var(--color-text-tertiary);
 }
