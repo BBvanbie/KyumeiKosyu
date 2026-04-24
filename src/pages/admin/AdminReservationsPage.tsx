@@ -173,11 +173,11 @@ export function AdminReservationsPage() {
           <tbody>
             {reservations.map((reservation) => (
               <tr key={reservation.id}>
-                <td>{reservation.reservationNumber}</td>
-                <td>{reservation.preferredDate.slice(0, 10)}</td>
-                <td>{reservation.fullName}</td>
-                <td>{reservation.phone}</td>
-                <td>
+                <td data-label="予約番号">{reservation.reservationNumber}</td>
+                <td data-label="希望日">{reservation.preferredDate.slice(0, 10)}</td>
+                <td data-label="氏名">{reservation.fullName}</td>
+                <td data-label="電話番号">{reservation.phone}</td>
+                <td data-label="受講種別">
                   <div className="reservation-items-cell">
                     {reservation.items.map((item) => (
                       <span key={item.id}>
@@ -186,11 +186,13 @@ export function AdminReservationsPage() {
                     ))}
                   </div>
                 </td>
-                <td>
+                <td data-label="状態">
                   <ReservationStatusBadge status={reservation.status} />
                 </td>
-                <td>{reservation.confirmedAt ? new Date(reservation.confirmedAt).toLocaleString('ja-JP') : '-'}</td>
-                <td>
+                <td data-label="確定日時">
+                  {reservation.confirmedAt ? new Date(reservation.confirmedAt).toLocaleString('ja-JP') : '-'}
+                </td>
+                <td data-label="操作">
                   <div className="table-actions">
                     <button onClick={() => setDetailReservation(reservation)} type="button">
                       詳細

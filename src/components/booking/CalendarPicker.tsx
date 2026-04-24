@@ -133,6 +133,7 @@ export function CalendarPicker({
           const isSaturday = dayOfWeek === 6
           const isSunday = dayOfWeek === 0
           const isHoliday = holidayJp.isHoliday(date.toDate())
+          const stateLabel = isPast ? '受付終了' : isBlocked ? '予約不可' : '選択可能'
           const className = [
             'calendar-day',
             isSelected ? 'is-selected' : '',
@@ -147,6 +148,7 @@ export function CalendarPicker({
           return (
             <button
               key={key}
+              aria-label={`${date.format('YYYY年M月D日')} ${stateLabel}`}
               className={className}
               disabled={(disabledBlockedDates && isBlocked) || isPast}
               onClick={(event) => handleDateClick(key, event)}
@@ -154,9 +156,7 @@ export function CalendarPicker({
             >
               <span className="calendar-day__month">{date.format('M月')}</span>
               <strong>{date.format('D')}</strong>
-              <span className="calendar-day__state">
-                {isPast ? '受付終了' : isBlocked ? '予約不可' : '選択可能'}
-              </span>
+              <span className="calendar-day__state">{stateLabel}</span>
             </button>
           )
         })}

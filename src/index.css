@@ -1471,6 +1471,10 @@ img {
   gap: 6px;
 }
 
+.reservation-items-cell span {
+  min-width: 0;
+}
+
 .status-panel {
   color: var(--color-text-secondary);
 }
@@ -1576,6 +1580,98 @@ img {
     min-width: 0;
   }
 
+  .admin-page .table-card {
+    overflow-x: visible;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .admin-page .data-table,
+  .admin-page .data-table tbody,
+  .admin-page .data-table tr,
+  .admin-page .data-table td {
+    display: block;
+  }
+
+  .admin-page .data-table thead {
+    display: none;
+  }
+
+  .admin-page .data-table tbody {
+    display: grid;
+    gap: 14px;
+  }
+
+  .admin-page .data-table tr {
+    padding: 18px;
+    border: 1px solid var(--color-border-soft);
+    border-radius: var(--radius-card);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-card);
+  }
+
+  .admin-page .data-table td {
+    min-width: 0;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--color-border-soft);
+  }
+
+  .admin-page .data-table td::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 4px;
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-small);
+    font-weight: 700;
+  }
+
+  .admin-page .data-table td:first-child {
+    padding-top: 0;
+    color: var(--color-text-primary);
+    font-size: 1.05rem;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+  }
+
+  .admin-page .data-table td:first-child::before {
+    color: var(--color-brand);
+  }
+
+  .admin-page .data-table td:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+
+  .admin-page .data-table td:last-child::before {
+    margin-bottom: 10px;
+  }
+
+  .admin-page .reservation-items-cell {
+    gap: 8px;
+  }
+
+  .admin-page .reservation-items-cell span {
+    display: inline-flex;
+    width: fit-content;
+    max-width: 100%;
+    padding: 6px 10px;
+    border-radius: var(--radius-badge);
+    background: var(--color-bg-subtle);
+    overflow-wrap: anywhere;
+  }
+
+  .admin-page .table-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .admin-page .table-actions button {
+    width: 100%;
+    min-height: 40px;
+    padding: 8px 10px;
+  }
+
   .search-cta {
     justify-self: stretch;
   }
@@ -1604,6 +1700,11 @@ img {
     padding-top: 24px;
   }
 
+  .section-head {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
   .hero-copy,
   .info-card,
   .form-card,
@@ -1615,16 +1716,25 @@ img {
   }
 
   .calendar-grid {
-    gap: 8px;
+    gap: 6px;
   }
 
-  .calendar-toolbar,
   .calendar-weekdays {
     gap: 8px;
   }
 
+  .calendar-toolbar {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 10px;
+  }
+
+  .calendar-toolbar__button:first-child,
+  .calendar-toolbar__button:last-child,
   .calendar-toolbar__title {
-    grid-column: 2 / 7;
+    grid-column: auto;
+  }
+
+  .calendar-toolbar__title {
     font-size: 0.98rem;
   }
 
@@ -1636,7 +1746,33 @@ img {
 
   .calendar-day,
   .calendar-day--empty {
-    min-height: 92px;
-    padding: 10px 8px;
+    display: grid;
+    place-items: center;
+    min-height: 0;
+    aspect-ratio: 1;
+    padding: 4px;
+    border-radius: 13px;
+    box-shadow:
+      rgba(0, 0, 0, 0.02) 0 0 0 1px,
+      rgba(0, 0, 0, 0.05) 0 2px 5px;
+  }
+
+  .calendar-day strong {
+    margin-top: 0;
+    font-size: 1rem;
+    line-height: 1;
+  }
+
+  .calendar-day__month,
+  .calendar-day__state {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
   }
 }
